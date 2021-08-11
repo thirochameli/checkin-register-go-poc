@@ -1,6 +1,9 @@
 package service
 
-import "testing"
+import (
+	"github.com/stretchr/testify/require"
+	"testing"
+)
 
 var personExists func(cpf string) bool
 
@@ -21,16 +24,12 @@ func TestCheckinService_Register(t *testing.T) {
 	}
 
 	err := checkinService.Register("234.234.234-01")
-	if err != nil {
-		t.Error("return data should be nil")
-	}
+	require.Nil(t, err)
 
 	personExists = func(cpf string) bool {
 		return false
 	}
 
 	err = checkinService.Register("234.234.234-01")
-	if err == nil {
-		t.Error("return data should be not nil")
-	}
+	require.Error(t, err)
 }
